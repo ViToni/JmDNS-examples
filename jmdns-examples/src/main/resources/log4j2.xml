@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="5">
+
+    <Properties>
+        <Property name="append">false</Property>
+        <Property name="log-dir">target/logs/</Property>
+        <Property name="log-format">%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="log-file" fileName="${log-dir}trace.log">
+            <PatternLayout pattern="${log-format}" />
+        </File>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="jmdns-file" fileName="${log-dir}jmdns.log">
+            <PatternLayout pattern="${log-format}" />
+        </File>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="socket-listener-file" fileName="${log-dir}socket-listener.log">
+            <PatternLayout pattern="${log-format}" />
+        </File>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="service-info-file" fileName="${log-dir}service-info.log">
+            <PatternLayout pattern="${log-format}" />
+        </File>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="service-listener-file" fileName="${log-dir}service-listener.log">
+            <PatternLayout pattern="${log-format}" />
+        </File>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="dns-cache-file" fileName="${log-dir}dns-cache.log">
+            <PatternLayout pattern="${log-format}" />
+        </File>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="record-reaper-file" fileName="${log-dir}record-reaper.log">
+            <PatternLayout pattern="${log-format}" />
+        </File>
+        <File bufferedIO="false" immediateFlush="true" append="${append}" name="dns-listener-file" fileName="${log-dir}dns-listener.log">
+            <PatternLayout pattern="${short-log-format}" />
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <!-- <Logger name="javax.jmdns" level="trace" additivity="false"> <AppenderRef ref="Console"/> </Logger> -->
+
+        <Logger level="trace" name="javax.jmdns.impl.JmDNSImpl">
+            <AppenderRef ref="jmdns-file" />
+        </Logger>
+
+        <Logger level="trace" name="org.jmdns">
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <Logger level="trace" name="javax.jmdns.impl.tasks.RecordReaper">
+            <AppenderRef ref="record-reaper-file" />
+        </Logger>
+
+        <Logger level="warn" name="javax.jmdns.impl.SocketListener">
+            <AppenderRef ref="socket-listener-file" />
+        </Logger>
+
+        <Logger level="trace" name="org.kromo.examples.jmdns.LoggingServiceListener" additivity="false">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="service-listener-file" />
+        </Logger>
+
+        <Logger level="trace" name="javax.jmdns.impl.DNSCache">
+            <AppenderRef ref="dns-cache-file" />
+        </Logger>
+
+        <Logger level="trace" name="javax.jmdns.impl.LoggingDNSListener">
+            <AppenderRef ref="dns-listener-file" />
+        </Logger>
+
+        <Logger level="trace" name="javax.jmdns.impl.ServiceInfoImpl">
+            <AppenderRef ref="service-info-file" />
+        </Logger>
+
+        <Logger level="trace" name="org.kromo.examples">
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="log-file" />
+        </Root>
+    </Loggers>
+</Configuration>
